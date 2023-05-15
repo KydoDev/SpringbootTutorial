@@ -1,7 +1,7 @@
 package com.skia.lab.models;
 
 public enum ERole {
-  ROLE_VIEWWR,
+  ROLE_VIEWER,
   ROLE_USER,
   ROLE_MODERATOR,
   ROLE_ADMIN,

@@ -9,6 +9,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,11 +21,14 @@ import com.skia.lab.security.jwt.AuthTokenFilter;
 import com.skia.lab.security.services.UserDetailsServiceImpl;
 
 @Configuration
-@EnableMethodSecurity(
-    // securedEnabled = true,
-    // jsr250Enabled = true,
+@EnableWebSecurity //allows Spring to find and automatically apply the class to the global Web Security.
+@EnableMethodSecurity(              //provides AOP security on methods. It enables @PreAuthorize, @PostAuthorize, 
+    // securedEnabled = true,       //it also supports JSR-250. You can find more parameters 
+    // jsr250Enabled = true,        //in configuration in Method Security Expressions.
     prePostEnabled = true)
-public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
+
+
+public class WebSecurityConfig {
   @Autowired
   UserDetailsServiceImpl userDetailsService;
 
@@ -36,6 +40,10 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     return new AuthTokenFilter();
   }
 
+// We override the configure(HttpSecurity http) method from WebSecurityConfigurerAdapter interface. 
+// It tells Spring Security how we configure CORS and CSRF, when we want to require all users to be 
+// authenticated or not, which filter (AuthTokenFilter) and when we want it to work (filter before 
+// UsernamePasswordAuthenticationFilter), which Exception Handler is chosen (AuthEntryPointJwt).
 //  @Override
 //  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 //    authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -63,7 +71,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  public PasswordEncoder passwordEncoder() {
+  public PasswordEncoder passwordEncoder() {  //Encode password, if not plain text
     return new BCryptPasswordEncoder();
   }
 
