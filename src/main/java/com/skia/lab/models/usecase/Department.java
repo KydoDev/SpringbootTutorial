@@ -1,6 +1,5 @@
 package com.skia.lab.models.usecase;
 
-
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -11,15 +10,15 @@ public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
-    
+
     // Relationships
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> employees;
-    
+
     // Getters and Setters
-    
+
     /**
      * @return Long return the id
      */
@@ -63,4 +62,3 @@ public class Department {
     }
 
 }
-

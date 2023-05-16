@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 @Table(name = "employees")
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     private String firstName;
@@ -27,6 +27,24 @@ public class Employee {
     @JoinColumn(name = "manager_id")
     private Employee manager;
     
+    public Employee(String firstName, String lastName, LocalDate dateOfBirth, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = dateOfBirth;
+        this.email = email;
+    }
+
+    public Employee(String firstName, String lastName, LocalDate dateOfBirth, String address,
+                    String phoneNumber, String email) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = dateOfBirth;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
 // Getters and Setters
     
 public Long getId() {

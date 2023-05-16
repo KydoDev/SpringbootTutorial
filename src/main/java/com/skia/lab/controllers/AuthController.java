@@ -32,11 +32,6 @@ import com.skia.lab.repository.UserRepository;
 import com.skia.lab.security.jwt.JwtUtils;
 import com.skia.lab.security.services.UserDetailsImpl;
 
-
-
-
-
-
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -57,11 +52,11 @@ public class AuthController {
   JwtUtils jwtUtils;
 
   // /api/auth/signin
-  //   authenticate { username, pasword }
-  //   update SecurityContext using Authentication object
-  //   generate JWT
-  //   get UserDetails from Authentication object
-  //   response contains JWT and UserDetails data
+  // authenticate { username, pasword }
+  // update SecurityContext using Authentication object
+  // generate JWT
+  // get UserDetails from Authentication object
+  // response contains JWT and UserDetails data
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -70,24 +65,23 @@ public class AuthController {
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String jwt = jwtUtils.generateJwtToken(authentication);
-    
-    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();    
+
+    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
     List<String> roles = userDetails.getAuthorities().stream()
         .map(item -> item.getAuthority())
         .collect(Collectors.toList());
 
-    return ResponseEntity.ok(new JwtResponse(jwt, 
-                         userDetails.getId(), 
-                         userDetails.getUsername(), 
-                         userDetails.getEmail(), 
-                         roles));
+    return ResponseEntity.ok(new JwtResponse(jwt,
+        userDetails.getId(),
+        userDetails.getUsername(),
+        userDetails.getEmail(),
+        roles));
   }
 
-
-// /api/auth/signup
-//   check existing username/email
-//   create new User (with ROLE_USER if not specifying role)
-//   save User to database using UserRepository
+  // /api/auth/signup
+  // check existing username/email
+  // create new User (with ROLE_USER if not specifying role)
+  // save User to database using UserRepository
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -103,9 +97,9 @@ public class AuthController {
     }
 
     // Create new user's account
-    User user = new User(signUpRequest.getUsername(), 
-               signUpRequest.getEmail(),
-               encoder.encode(signUpRequest.getPassword()));
+    User user = new User(signUpRequest.getUsername(),
+        signUpRequest.getEmail(),
+        encoder.encode(signUpRequest.getPassword()));
 
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
@@ -117,22 +111,22 @@ public class AuthController {
     } else {
       strRoles.forEach(role -> {
         switch (role) {
-        case "admin":
-          Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(adminRole);
+          case "admin":
+            Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(adminRole);
 
-          break;
-        case "mod":
-          Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(modRole);
+            break;
+          case "mod":
+            Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(modRole);
 
-          break;
-        default:
-          Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-          roles.add(userRole);
+            break;
+          default:
+            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
         }
       });
     }

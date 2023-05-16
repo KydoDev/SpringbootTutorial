@@ -3,6 +3,8 @@ package com.skia.lab.repository.usecase;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.skia.lab.models.usecase.Employee;
@@ -10,16 +12,11 @@ import com.skia.lab.models.usecase.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    Employee getEmployee(Long id);
-    // You can define custom query methods here if needed
+    @Query("SELECT e FROM Employee e WHERE e.manager.id = :managerId")
+    List<Employee> findByManagerId(@Param("managerId") Long managerId);
 
-    Employee createEmployee(Employee employee);
+    @Query("SELECT e FROM Employee e WHERE e.department.id = :departmentId")
+    List<Employee> findByDepartmentId(@Param("departmentId") Long departmentId);
 
-    List<Employee> getAllEmployees();
 
-    Employee updateEmployee(Long id, Employee employee);
-
-    boolean deleteEmployee(Long id);
-
-    List<Employee> findEmployees(String query);
 }
