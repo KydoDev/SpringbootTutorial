@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 @Table(name = "departments")
 public class Department {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
@@ -18,6 +18,10 @@ public class Department {
     private List<Employee> employees;
 
     // Getters and Setters
+
+    public Department(String name) {
+        this.name = name;
+    }
 
     /**
      * @return Long return the id

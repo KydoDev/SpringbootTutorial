@@ -30,7 +30,7 @@ public class Attendance {
     private LocalTime exitTime;
 
     @Column(name = "absence_type")
-    private String absenceType;
+    private AbsenceType absenceType;
 
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY)
@@ -102,15 +102,15 @@ public class Attendance {
     /**
      * @return String return the absenceType
      */
-    public String getAbsenceType() {
+    public AbsenceType getAbsenceType() {
         return absenceType;
     }
 
     /**
      * @param absenceType the absenceType to set
      */
-    public void setAbsenceType(String absenceType) {
-        this.absenceType = absenceType;
+    public void setAbsenceType(int absenceType) {
+        this.absenceType = AbsenceType.values()[absenceType];
     }
 
     /**

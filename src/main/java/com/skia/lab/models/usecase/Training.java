@@ -35,6 +35,14 @@ public class Training {
 
     // Getters and Setters
 
+    public Training(LocalDate startDate, LocalDate endDate, String type, String description, Employee employee) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.type = type;
+        this.description = description;
+        this.employee = employee;
+    }
+
     public Long getId() {
         return id;
     }
