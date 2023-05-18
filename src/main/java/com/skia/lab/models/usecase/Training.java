@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 @Table(name = "trainings")
 public class Training {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "start_date")

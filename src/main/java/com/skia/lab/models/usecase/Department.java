@@ -19,6 +19,9 @@ public class Department {
 
     // Getters and Setters
 
+    public Department() {
+    }
+
     public Department(String name) {
         this.name = name;
     }
