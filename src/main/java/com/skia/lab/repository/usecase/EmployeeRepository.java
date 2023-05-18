@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.skia.lab.models.usecase.Employee;
 
-@Repository
+@Repository //Any persistent layer which is going to communicate with the database
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query("SELECT e FROM Employee e WHERE e.manager.id = :managerId")

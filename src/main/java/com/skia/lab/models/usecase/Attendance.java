@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 @Table(name = "attendances")
 public class Attendance {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private LocalDate date;
@@ -42,6 +42,15 @@ public class Attendance {
     // Getters and Setters
 
     // Other methods (if needed)
+
+    public Attendance(LocalDate date, LocalTime entryTime, LocalTime exitTime, AbsenceType absenceType,
+            Employee employee) {
+        this.date = date;
+        this.entryTime = entryTime;
+        this.exitTime = exitTime;
+        this.absenceType = absenceType;
+        this.employee = employee;
+    }
 
     /**
      * @return Long return the id
