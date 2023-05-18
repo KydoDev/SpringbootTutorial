@@ -52,8 +52,7 @@ public class MockDataGenerator {
 
         long eIdx = 0;
 
-
-        departmentRepository.deleteAll();
+        if(departmentRepository.count() != 0) departmentRepository.deleteAll();
         if(departmentRepository.count() == 0){
             for (int i = 0; i < 5; i++) {
                 var d = new Department(faker.animal().name());
@@ -92,7 +91,7 @@ public class MockDataGenerator {
                 if(i == 0) eIdx = employees[i].getId();
             }
         }
-        //if(hireRepository.count() != 0) hireRepository.deleteAll();
+        if(hireRepository.count() != 0) hireRepository.deleteAll();
         if(hireRepository.count() == 0){
             
             var e0 =employeeRepository.findById((long)eIdx);
@@ -107,7 +106,7 @@ public class MockDataGenerator {
 
         }
 
-        attendanceRepository.deleteAll();
+        if(attendanceRepository.count() != 0) attendanceRepository.deleteAll();
         if(attendanceRepository.count() == 0){
             
             var e0 =employeeRepository.findById((long)eIdx);
