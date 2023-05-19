@@ -23,9 +23,9 @@ public class Employee {
     @JoinColumn(name = "department_id")
     private Department department;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_id")
-    private Employee manager;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "manager_id")
+    // private Employee manager;
     
     public Employee(String firstName, String lastName, LocalDate dateOfBirth, String email) {
         this.firstName = firstName;
@@ -114,11 +114,11 @@ public void setDepartment(Department department) {
     this.department = department;
 }
 
-public Employee getManager() {
-    return manager;
-}
+// public Employee getManager() {
+//     return manager;
+// }
 
-public void setManager(Employee manager) {
-    this.manager = manager;
-}
+// public void setManager(Employee manager) {
+//     this.manager = manager;
+// }
 }

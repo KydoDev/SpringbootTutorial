@@ -6,11 +6,16 @@ import java.time.LocalTime;
 import org.springframework.stereotype.Component;
 
 import com.github.javafaker.Faker;
+import com.skia.lab.models.ERole;
+import com.skia.lab.models.Role;
+import com.skia.lab.models.User;
 import com.skia.lab.models.usecase.AbsenceType;
 import com.skia.lab.models.usecase.Attendance;
 import com.skia.lab.models.usecase.Department;
 import com.skia.lab.models.usecase.Employee;
 import com.skia.lab.models.usecase.Hire;
+import com.skia.lab.repository.RoleRepository;
+import com.skia.lab.repository.UserRepository;
 import com.skia.lab.repository.usecase.AttendanceRepository;
 import com.skia.lab.repository.usecase.DepartmentRepository;
 import com.skia.lab.repository.usecase.EmployeeRepository;
@@ -21,6 +26,9 @@ import com.skia.lab.repository.usecase.WageRepository;
 
 @Component
 public class MockDataGenerator {
+
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
     private final HireRepository hireRepository;
@@ -36,7 +44,9 @@ public class MockDataGenerator {
                                 AttendanceRepository attendanceRepository,
                                 PerformanceEvaluationRepository performanceEvaluationRepository,
                                 TrainingRepository trainingRepository,
-                                WageRepository wageRepository
+                                WageRepository wageRepository,
+                                UserRepository userRepository,
+                                RoleRepository roleRepository
     ) {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
@@ -45,14 +55,16 @@ public class MockDataGenerator {
         this.performanceEvaluationRepository = performanceEvaluationRepository;
         this.trainingRepository = trainingRepository;
         this.wageRepository = wageRepository;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.faker = new Faker();
     }
+
+
 
     public void generateMockData() {
 
         long eIdx = 0;
-
-        if(departmentRepository.count() != 0) departmentRepository.deleteAll();
         if(departmentRepository.count() == 0){
             for (int i = 0; i < 5; i++) {
                 var d = new Department(faker.animal().name());
@@ -62,12 +74,8 @@ public class MockDataGenerator {
         }
 
 
-        if(employeeRepository.count() != 0) employeeRepository.deleteAll();
-
         Employee[] employees = new Employee[40];
         if(employeeRepository.count() == 0){
-            
-
             for (int i = 0; i < 40; i++) {
                 employees[i] = new Employee();
                 employees[i].setFirstName(faker.name().firstName());
@@ -82,51 +90,66 @@ public class MockDataGenerator {
                 if(i>30 && i<40) a = 3;
                 if(departmentRepository.existsById(a))
                 employees[i].setDepartment(departmentRepository.findById(a).get());
-
-                if(i>10) employees[i].setManager(employees[10]);
-                if(i<10 && i >0) employees[i].setManager(employees[0]);
-                
-                // employee.setDepartment(i<10 ? department1 : department2);
+                // if(i>10) employees[i].setManager(employees[0]);
+                // if(i<10 && i >0) employees[i].setManager(employees[1]);
                 employeeRepository.save(employees[i]);
                 if(i == 0) eIdx = employees[i].getId();
             }
         }
-        if(hireRepository.count() != 0) hireRepository.deleteAll();
         if(hireRepository.count() == 0){
-            
             var e0 =employeeRepository.findById((long)eIdx);
             Hire hire0 = new Hire(LocalDate.now(), faker.name().title(), 50000, "commercio", e0.get());
             hireRepository.save(hire0);
             for (int i = 1; i < 20; i++) {
                 var e =employeeRepository.findById((long)employees[i].getId());
                 Hire hire = new Hire(LocalDate.now(), "Sales", 30000, "commercio", e.get());
-
                 hireRepository.save(hire);
             }
-
         }
-
-        if(attendanceRepository.count() != 0) attendanceRepository.deleteAll();
-        if(attendanceRepository.count() == 0){
-            
+        if(attendanceRepository.count() == 0){          
             var e0 =employeeRepository.findById((long)eIdx);
             Attendance att0 = new Attendance(LocalDate.of(2023,2,1), LocalTime.of(8,0,0),LocalTime.of(18,0,0), null, e0.get());
             attendanceRepository.save(att0);
-
-            for (int i = 1; i < 28; i++){
-                
+            for (int i = 1; i < 28; i++){               
                 Attendance attX = new Attendance(LocalDate.of(2023,1,i), LocalTime.of(8,0,0),LocalTime.of(18,0,0), null , e0.get());
                     attX.setAbsenceType(AbsenceType.sickness.ordinal());
                 attendanceRepository.save(attX);
             }
-
             for (int j = 1; j < employeeRepository.count(); j++) {
                 var e =employeeRepository.findById((long)employees[j].getId());
 
-                for (int i = 1; i < 28; i++) { for (int k = 1; k < 12; k++) attendanceRepository.save( new Attendance(LocalDate.of(2023,k,i), LocalTime.of(8,0,0),LocalTime.of(18,0,0), null, e.get()));    }
-                    
+                for (int i = 1; i < 28; i++) { for (int k = 1; k < 12; k++) attendanceRepository.save( new Attendance(LocalDate.of(2023,k,i), LocalTime.of(8,0,0),LocalTime.of(18,0,0), null, e.get()));    }                   
             }
         }
-
     }
+
+    public void DeleteAllDatabase(){
+        if(attendanceRepository.count() != 0) attendanceRepository.deleteAll();
+        if(hireRepository.count() != 0) hireRepository.deleteAll();
+        if(employeeRepository.count() != 0) employeeRepository.deleteAll();
+        if(departmentRepository.count() != 0) departmentRepository.deleteAll();
+    }
+
+    public void GenerateMockRoles(){
+
+        if(roleRepository.count() == 0){
+            for (int i = 0; i < ERole.values().length; i++) {
+
+                var r = new Role(ERole.getRole(i));
+  
+                roleRepository.save(r);
+            }
+        }
+        //password ned to be crypted
+        // if(userRepository.count() == 0){
+        //     for (int i = 0; i < ERole.values().length; i++) {
+
+        //         var u = new User("Skia_"+ERole.getRole(i).toString(),
+        //         "Skia_"+ERole.getRole(i).toString()+"@skialab.it","password");
+  
+        //         userRepository.save(u);
+        //     }
+        // }
+    }
+
 }

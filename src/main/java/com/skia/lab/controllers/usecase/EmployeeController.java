@@ -49,25 +49,24 @@ public class EmployeeController { //Any presentation layer
         }
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<Employee>> getAllEmployees(@RequestParam(required = false) Long departmentId,
-            @RequestParam(required = false) Long managerId) {
+    @GetMapping("/all/")
+    public ResponseEntity<List<Employee>> getAllEmployees(@RequestParam(required = false) Long departmentId/*, @RequestParam(required = false) Long managerId*/) {
 
         try {
             List<Employee> employee = new ArrayList<Employee>();
 
-            if (departmentId != null && managerId == null)
+            if (departmentId != null /* && managerId == null*/)
                 employeeRepository.findByDepartmentId(departmentId).forEach(employee::add);
-            else if (departmentId == null && managerId != null)
-                employeeRepository.findByManagerId(managerId).forEach(employee::add);
+            // else if (departmentId == null && managerId != null)
+            //     employeeRepository.findByManagerId(managerId).forEach(employee::add);
             else
                 employeeRepository.findAll().forEach(employee::add);
 
             if (employee.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-
-            return new ResponseEntity<>(employee, HttpStatus.OK);
+                ResponseEntity<List<Employee>> res = new ResponseEntity<>(employee, HttpStatus.OK);
+            return res;
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

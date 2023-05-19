@@ -15,5 +15,6 @@ public class ApplicationStartupListener implements ApplicationListener<Applicati
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         mockDataGenerator.generateMockData();
+        mockDataGenerator.GenerateMockRoles();
     }
 }

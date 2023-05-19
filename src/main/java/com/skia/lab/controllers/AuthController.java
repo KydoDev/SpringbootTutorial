@@ -123,6 +123,15 @@ public class AuthController {
             roles.add(modRole);
 
             break;
+            case "god":
+            Role godRole = roleRepository.findByName(ERole.ROLE_GOD)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(godRole);
+            case "viewer":
+            Role vRole = roleRepository.findByName(ERole.ROLE_VIEWER)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(vRole);
+            break;
           default:
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -136,4 +145,7 @@ public class AuthController {
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
+
+
+
 }
