@@ -15,8 +15,10 @@ import java.util.Optional;
 //@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api/employee")
-public class EmployeeController {
+public class EmployeeController { //Any presentation layer
 
+
+    //if I want separate BusinessLogic from classes/endpoint, I can create a Service //Any service layer class where we have business logic. 
     @Autowired
     EmployeeRepository employeeRepository;
 

@@ -33,8 +33,18 @@ public class Wage {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+
+    
     // Getters and Setters
     
+    public Wage(LocalDate paymentDate, double salaryAmount, double taxes, double deductions, Employee employee) {
+        this.paymentDate = paymentDate;
+        this.salaryAmount = salaryAmount;
+        this.taxes = taxes;
+        this.deductions = deductions;
+        this.employee = employee;
+    }
+
     /**
      * @return Long return the id
      */

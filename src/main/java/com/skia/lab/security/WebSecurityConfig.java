@@ -94,8 +94,8 @@ public class WebSecurityConfig {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeHttpRequests().requestMatchers("/api/auth/**").permitAll()
         .requestMatchers("/api/test/**").permitAll()
-        .anyRequest().authenticated();
-    
+        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+        .anyRequest().permitAll();//.authenticated();
     http.authenticationProvider(authenticationProvider());
 
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

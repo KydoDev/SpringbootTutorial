@@ -1,3 +1,4 @@
+# Work In Progress
 # Learning sandbox
 
 This is a learning project aimed at familiarizing myself with a new technology stack that includes Java, Spring Boot, and PostgreSQL. 
@@ -17,4 +18,16 @@ This is a learning project aimed at familiarizing myself with a new technology s
    In combination, Java, Spring Boot, and PostgreSQL provide a powerful stack for building scalable and reliable applications. Java serves as the programming language, Spring Boot provides a streamlined development framework, and PostgreSQL offers a robust and feature-rich database solution. Together, they enable developers to create efficient, maintainable, and scalable applications for various use cases.
 
 
-Architecture description in Architecture.md
+# How toi start
+
+Start project
+
+'./mvnw spring-boot:run'
+
+Architecture description in [Architecture.md](/Architecture.md)
+
+In this project is implemented the use case described here: [Usecase](usecase.md)
+
+
+
+Swagger in app: http://localhost:8080/swagger-ui/index.html

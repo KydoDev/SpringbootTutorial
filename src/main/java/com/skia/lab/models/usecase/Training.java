@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 @Table(name = "trainings")
 public class Training {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "start_date")
@@ -34,6 +34,14 @@ public class Training {
     private Employee employee;
 
     // Getters and Setters
+
+    public Training(LocalDate startDate, LocalDate endDate, String type, String description, Employee employee) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.type = type;
+        this.description = description;
+        this.employee = employee;
+    }
 
     public Long getId() {
         return id;

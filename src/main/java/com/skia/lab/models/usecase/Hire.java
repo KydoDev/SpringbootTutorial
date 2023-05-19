@@ -36,6 +36,11 @@ public class Hire {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+
+    public Hire(LocalDate hiringDate2, String position2, double initialSalary2, String contractType2,
+    Employee employee2) {
+}
+
     // Getters and Setters
 
     /**

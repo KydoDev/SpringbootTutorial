@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 @Table(name = "attendances")
 public class Attendance {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private LocalDate date;
@@ -30,7 +30,7 @@ public class Attendance {
     private LocalTime exitTime;
 
     @Column(name = "absence_type")
-    private String absenceType;
+    private AbsenceType absenceType;
 
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,6 +42,15 @@ public class Attendance {
     // Getters and Setters
 
     // Other methods (if needed)
+
+    public Attendance(LocalDate date, LocalTime entryTime, LocalTime exitTime, AbsenceType absenceType,
+            Employee employee) {
+        this.date = date;
+        this.entryTime = entryTime;
+        this.exitTime = exitTime;
+        this.absenceType = absenceType;
+        this.employee = employee;
+    }
 
     /**
      * @return Long return the id
@@ -102,15 +111,15 @@ public class Attendance {
     /**
      * @return String return the absenceType
      */
-    public String getAbsenceType() {
+    public AbsenceType getAbsenceType() {
         return absenceType;
     }
 
     /**
      * @param absenceType the absenceType to set
      */
-    public void setAbsenceType(String absenceType) {
-        this.absenceType = absenceType;
+    public void setAbsenceType(int absenceType) {
+        this.absenceType = AbsenceType.values()[absenceType];
     }
 
     /**

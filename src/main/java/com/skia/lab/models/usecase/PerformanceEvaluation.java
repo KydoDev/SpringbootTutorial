@@ -32,6 +32,17 @@ public class PerformanceEvaluation {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+
+
+    public PerformanceEvaluation(LocalDate evaluationDate, String results, String comments, String feedback,
+            Employee employee) {
+        this.evaluationDate = evaluationDate;
+        this.results = results;
+        this.comments = comments;
+        this.feedback = feedback;
+        this.employee = employee;
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;
