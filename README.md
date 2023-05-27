@@ -12,7 +12,7 @@ This is a learning project aimed at familiarizing myself with a new technology s
 - run the application: ./mvnw spring-boot:run
 
 
-# How toi start
+# How to start
 
 Start project
 
